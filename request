@@ -1,0 +1,160 @@
+DELETE
+	FROM ACTEUR a
+    	WHERE a.nom NOT IN (
+        	SELECT jd.nomActeur
+           	 FROM JOUEDANS jd )
+non car 
+
+
+
+
+
+question 4
+
+DELETE
+	FROM ACTEUR 
+    	WHERE nom NOT IN (
+        	SELECT jd.nomActeur
+           	 FROM JOUEDANS jd )
+
+
+
+question 5
+
+UPDATE REALISATEUR
+	SET salaire = salaire*1.1 WHERE salaire < 250000
+    	 )
+
+
+part 3
+
+
+request 1
+
+SELECT *
+	FROM ACTEUR a
+		where a.genre ='f'
+    	order by a.dateNaissance DESC
+ 
+ desc mean descendant asc mean ascendant
+ 
+ 
+request 2
+SELECT nom
+	FROM ACTEUR a
+    	WHERE a.dateNaissance<'1950-1-0'
+        AND a.nom LIKE '-a%'
+        
+
+request 3
+like suporte les expresions regulieres et pas = 
+
+SELECT f.titre, f.annee
+	FROM REALISATEUR r, FILM f
+    	WHERE f.certrea = r.numcert
+        	AND r.nom = 'Chaplin'
+
+request 4
+
+SELECT ACTEUR.nom 
+	FROM ACTEUR
+    	JOIN JOUEDANS ON JOUEDANS.nomActeur = ACTEUR.nom
+        JOIN FILM ON JOUEDANS.titrefilm =FILM.titre AND FILM.annee=JOUEDANS.anneefilm
+        JOIN REALISATEUR ON REALISATEUR.numcert=FILM.certrea
+        WHERE REALISATEUR.nom LIKE 'lynch'
+        and ACTEUR.nom IN (
+        	SELECT ACTEUR.nom 
+	FROM ACTEUR
+    	JOIN JOUEDANS ON JOUEDANS.nomActeur = ACTEUR.nom
+        JOIN FILM ON JOUEDANS.titrefilm =FILM.titre AND FILM.annee=JOUEDANS.anneefilm
+        JOIN REALISATEUR ON REALISATEUR.numcert=FILM.certrea
+        WHERE REALISATEUR.nom LIKE 'Spielberg'
+           	)
+
+
+request 5
+SELECT a.nom
+	FROM	 ACTEUR a , REALISATEUR r
+    	WHERE a.nom =r.nom
+
+
+request 6
+SELECT r.nom
+	FROM	REALISATEUR r
+    	WHERE r.salaire >(
+			SELECT MIN(f.cout)
+				FROM FILM f)
+
+request 7
+SELECT jd.nomActeur
+	FROM JOUEDANS jd, FILM f
+		WHERE f.titre=jd.titrefilm
+        and f.annee=jd.anneefilm
+		and f.certrea IN(
+            SELECT r.numcert
+	FROM REALISATEUR r
+    	WHERE r.salaire >(
+			SELECT MIN(f.cout)
+				FROM FILM f)
+            )
+
+request 8
+SELECT DISTINCT r.nom 
+	from REALISATEUR r ,FILM f 
+    where r.numcert=f.certrea 
+    AND f.cout not IN(
+        SELECT f2.cout
+        	FROM FILM f2
+        		WHERE f2.cout< 10000000        
+        )
+
+
+request 9
+SELECT DISTINCT r.nom 
+	from REALISATEUR r ,FILM f 
+    where r.numcert=f.certrea 
+    AND f.cout not IN(
+        SELECT f2.cout
+        	FROM FILM f2
+        		WHERE f2.cout> 1000000        
+        )
+
+
+
+request 10
+SELECT r.nom , MAX(f.cout)"cout max",AVG(f.cout)"cout min"
+    FROM REALISATEUR r , FILM f
+    WHERE r.numcert = f.certrea
+     GROUP BY r.nom
+     
+
+request 11
+SELECT r.nom , MAX(f.cout)"cout max",AVG(f.cout)"cout min"
+    FROM REALISATEUR r ,(SELECT *
+        					FROM FILM f2
+        						WHERE f2.cout> 1000000) as f
+    WHERE r.numcert = f.certrea
+     GROUP BY r.nom
+     
+
+
+
+request 14
+group by 
+Having count (a.nom)>2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
